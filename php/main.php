@@ -4,7 +4,7 @@ $whoami = $_POST["p_m"]; // true == premium || false == 08/15
 
 $req_start = "https://api.twitter.com/1.1/search/tweets.json?q=";
 $fishi_str = data_proc($fishi_str);
-echo $fishi_str;
+
 if ($whoami)
 {
 	//premium
