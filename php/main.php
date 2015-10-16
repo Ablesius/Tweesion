@@ -14,13 +14,25 @@ else
 {
 	// 08/15
 	
-} 
+}
 
 function pre_pro()	// input = string || output = time_span; language (default english); 
 {
-	$fs_len = strlen($fishi_str);
-	$x = null;
-	$x = array(explode(" ", $fishi_str, 0));
-	
+	// calculate time span based on tweets length
+	$time_span = intval(40*log(strlen($fishi_str), 10)++);
+
+	// make url encoded query
+	$string = array(explode(" ", $fishi_string));
+	$once = false;
+	$fishi_str = null;
+	foreach ($string as $i) {
+		if ($once) {
+			$fishi_str .= "%20";
+		}
+		else {
+			$once = true;
+		}
+		$fishi_str .= $i;
+	}
 }
 ?>
