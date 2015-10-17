@@ -3,6 +3,7 @@
 
 	const POST = "POST";
 	const GET = "GET";
+	const AVGFOLLOW = 100;
 
 	$ini = parse_ini_file('default.ini', false);
 	$settings = array(
@@ -16,36 +17,32 @@
 	$qstring = encode($fishy_str);
 	$since = timespan($fishy_str);
 	$result = api_req($qstring, $since, $settings);
-	list($average_favs, $average_rts) = analyse_grades($result['statuses']);
-	var_dump($average_favs);
-	var_dump($average_rts);
-	var_dump($result);
-
-	// $api_data = api($fishy_str);
-	// echo json_encode(array($api_data));
+	$retweet_count = analyse_grades($result['statuses']);
+	$responsarray = array($retweet_count/AVGFOLLOW, $retweet_count);
+	$encoded = json_encode($responsarray);
+	echo $encoded;
+	
 
 function api_req($qstring, $since, $settings) {
 	$url = 'https://api.twitter.com/1.1/search/tweets.json';
-	$getfield = '?q='.$qstring.' since:'.$since.'&lang=en&result_type=recent&count=1';
+	$getfield = '?q='.$qstring.' since:'.$since.'&lang=en&result_type=recent&count=100';
 	$requestMethod = 'GET';
 
 	$twitter = new TwitterAPIExchange($settings);
 	return json_decode($twitter->setGetfield($getfield)->buildOauth($url, $requestMethod)->performRequest(), true);
-	// return $twitter->setGetfield($getfield)->buildOauth($url, $requestMethod)->performRequest();
 }
 
 function analyse_grades($statuses){
 
-	$favorite_count = 0;
+	//$favorite_count = 0;
 	$retweet_count = 0;
-
-	foreach($statuses as $astatus){
-		$favorite_count += $astatus['favorite_count'];
-		$retweet_count += $astatus['retweet_count'];
-
-		return array(($favorite_count / count($statuses)), ($retweet_count / count($statuses)));
+	$j = 0;
+	foreach($statuses as $i){
+		//$favorite_count += $i['favorites_count'];
+		$retweet_count += $i['retweet_count'];
+		$j++;
 	}
-
+	return $retweet_count;
 }
 
 function encode($fishy_str) {
