@@ -1,3 +1,0 @@
-CREATE TABLE `hashtagprediction`.`words` ( `words` TEXT NOT NULL ) ENGINE = InnoDB;
-CREATE TABLE `hashtagprediction`.`links` ( `words` INT NOT NULL , `hashtag` INT NOT NULL , `weight` INT NOT NULL ) ENGINE = InnoDB;
-CREATE TABLE `hashtagprediction`.`hashtag` ( `hashtag` TEXT NOT NULL ) ENGINE = InnoDB;
