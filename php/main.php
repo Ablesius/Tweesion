@@ -41,7 +41,7 @@ function analyse_grades($statuses){
 		$retweet_count += $i['retweet_count'];
 		$j++;
 	}
-	return $retweet_count;
+	return $retweet_count / $j;
 }
 
 function encode($fishy_str) {
