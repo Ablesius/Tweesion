@@ -12,20 +12,55 @@
     	'consumer_secret' => $ini['consumer_secret']
 	);
 
-	$fishy_str = $_POST['fishy_str'];
-	// make url encoded query
-	$fishy_str = urlencode($fishy_str);
-	$api_data = api($fishy_str);
-	echo json_encode(array($api_data));
+	if (isset($_POST['fishy_str'])) $fishy_str = $_POST['fishy_str']; else $fishy_str = "";
+	$qstring = encode($fishy_str);
+	$since = timespan($fishy_str);
+	$result = api_req($qstring, $since, $settings);
+	var_dump($result);
 
-function api($fishy_str) {
+	// $api_data = api($fishy_str);
+	// echo json_encode(array($api_data));
 
-	// $twitter = new TwitterAPIExchange($settings);
+function api_req($qstring, $since, $settings) {
+	$url = 'https://api.twitter.com/1.1/search/tweets.json';
+	$getfield = '?q='.$qstring.' since:'.$since.'&lang=eu&result_type=recent&count=100';
+	$requestMethod = 'GET';
 
-	// $twitter->setGetfield($getfield)
- //    ->buildOauth($url, $requestMethod)
- //    ->performRequest();
-	$percentage = "0.5";
-	return $percentage;
+	$twitter = new TwitterAPIExchange($settings);
+	return json_decode($twitter->setGetfield($getfield)->buildOauth($url, $requestMethod)->performRequest(), true);
+}
+
+function encode($fishy_str) {
+	$fishy_str = preg_replace("/[^a-zA-Z0-9# ]/u","", $fishy_str); 
+	$fs_array = explode(" ", $fishy_str);
+	$j = 0;
+	$fsa_new = array();
+	foreach ($fs_array as $i) {
+		if (strlen($i)>=4) {
+			$fsa_new[$j] = $i;
+			$j++;
+		}
+	}
+	$qstring = "";
+	$once = false;
+	foreach ($fsa_new as $i) {
+		if($once) {
+			$qstring .= "+";
+			$qstring .= $i;
+		}
+		else {
+			$qstring = $i;
+			$once = true;
+		}
+	}
+	return $qstring;
+}
+
+function timespan($fishy_str) {
+	// calculate time span based on tweets length
+	$time_span = intval(40*log(strlen($fishy_str), 10)+1);
+	// calculate since for twitter api
+	$since = date('Y-m-d', strtotime('-'.$time_span.'day'));
+	return $since;
 }
 ?>
