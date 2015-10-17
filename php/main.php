@@ -23,7 +23,7 @@
 
 function api_req($qstring, $since, $settings) {
 	$url = 'https://api.twitter.com/1.1/search/tweets.json';
-	$getfield = '?q='.$qstring.' since:'.$since.'&lang=eu&result_type=recent&count=100';
+	$getfield = '?q='.$qstring.' since:'.$since.'&lang=en&result_type=recent&count=100';
 	$requestMethod = 'GET';
 
 	$twitter = new TwitterAPIExchange($settings);
