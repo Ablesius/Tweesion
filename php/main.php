@@ -12,7 +12,6 @@
     	'consumer_key' => $ini['consumer_key'],
     	'consumer_secret' => $ini['consumer_secret']
 	);
-
 	if (isset($_POST['fishy_str'])) $fishy_str = $_POST['fishy_str']; else $fishy_str = "";
 	$qstring = encode($fishy_str);
 	$since = timespan($fishy_str);
@@ -25,7 +24,7 @@
 
 function api_req($qstring, $since, $settings) {
 	$url = 'https://api.twitter.com/1.1/search/tweets.json';
-	$getfield = '?q='.$qstring.' since:'.$since.'&lang=en&result_type=recent&count=100';
+	$getfield = '?q='.$qstring.'+since:'.$since.'&lang=en&result_type=recent&count=100';
 	$requestMethod = 'GET';
 
 	$twitter = new TwitterAPIExchange($settings);
@@ -60,7 +59,7 @@ function encode($fishy_str) {
 	$once = false;
 	foreach ($fsa_new as $i) {
 		if($once) {
-			$qstring .= "+";
+			$qstring .= "+OR+";
 			$qstring .= $i;
 		}
 		else {
