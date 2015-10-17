@@ -17,9 +17,7 @@
 	$since = timespan($fishy_str);
 	$result = api_req($qstring, $since, $settings);
 	$retweet_count = analyse_grades($result['statuses']);
-	$responsarray = array($retweet_count/AVGFOLLOW, $retweet_count);
-	$encoded = json_encode($responsarray);
-	echo $encoded;
+	echo json_encode(array($retweet_count/AVGFOLLOW, $retweet_count));
 	
 
 function api_req($qstring, $since, $settings) {
@@ -59,8 +57,7 @@ function encode($fishy_str) {
 	$once = false;
 	foreach ($fsa_new as $i) {
 		if($once) {
-			$qstring .= "+OR+";
-			$qstring .= $i;
+			$qstring .= "+OR+".$i;
 		}
 		else {
 			$qstring = $i;
