@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Tweesion &raquo; Dash</title>
+
+    <!-- CSS -->
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="http://www.parsecdn.com/js/parse-1.6.7.min.js"></script>
+    <script src="js/init.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body id="body">
+    
+    <!-- BODY CONTENT -->
+
+    <!-- Landing-Header -->
+    <div class="dash-header">
+      <!-- Nav -->
+      <div class="nav">
+        <!-- Logo -->
+        <div class="logo">
+          <a href="index.html"><img src="img/logo.png"/></a>
+        </div>
+        <!-- Menu -->
+        <div class="menu" id="menu">
+
+          <a href="settings.html" id="username_push"></a>
+          <a href="javascript:logout()">Logout</a>
+
+        </div>
+        <!-- End Menu -->
+      </div>
+      <!-- End Nav -->
+
+      <div class="vcenter" 
+      style="
+      top: 75%;
+      -webkit-transform: translateY(-75%);
+      transform: translateY(-75%);">
+
+        <p id="welcome_back"></p>
+
+      </div>
+
+    </div>
+
+
+    <div class="standard-text" id="writeonly" style="padding-bottom: 100px;">
+      
+      <h2>Analyse your Tweets</h2>
+
+      <textarea class="tweet_ta" id="tweet_msg" placeholder="Twitter Message" maxlength="140" value="Github Jugendhackt"></textarea>
+      <button class="tweet_analyse" onclick="work()">Submit</button>
+
+    </div>
+
+    <div class="errormsg" id="errors">
+
+    </div>
+
+    <div class="wrapper" style="padding-bottom: 60px;">
+      
+      <div class="standard-text">
+        
+        <h2>Your Analysis</h2>
+
+        <textarea class="tweet_ta" id="tweet_rebound" readonly placeholder="Twitter Message" style="color: #ccc"></textarea>
+
+        <div class="row">
+            
+          <h2>Analysis</h2>
+
+          <p class="smaller" id="prc_rch"><span id="percent_reach" class="large_display">--</span><br> of your followers would be reached by this tweet.</p>
+          <hr>
+          <p class="smaller" id="avg_rts"><span id="avg_rt" class="large_display">--</span><br> is an average of about how many retweets you are able to get</p>
+
+        </div>
+
+        <div class="row" style="margin: 10px 0 0 0;">
+        <button class="cancel" onclick="window.location.href='dash.html'">Cancel</button><button class="tweet_submit" id="tweet_submit">Tweet</button>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="errormsg" id="errormsgs" style="bottom: 0; left: 0; position: fixed;">
+      
+      <p id="errormsgs"></p>
+
+    </div>
+
+    <div class="footer" style="bottom: 0; left: 0; position: fixed;">
+      
+      <p>&copy; 2015 Tweesion &middot; All rights Reserved &middot; <a href="impressum.html">Imprint</a></p>
+
+    </div>
+
+
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/scroll.js"></script>
+    <script>
+
+      //Hide elements
+      // $(".landing-header").hide();
+      // $(".standard-text").hide();
+      // $(".image-strip-landing-one").hide();
+      // $(".footer").hide();
+      $(".wrapper").hide();
+      $(".errormsg").hide();
+
+      var currentUser = Parse.User.current();
+      if (currentUser) {
+          
+        var user_ = currentUser.getUsername();
+        var name_ = currentUser.get("name");
+
+        document.getElementById("username_push").innerHTML = user_;
+        document.getElementById("welcome_back").innerHTML = "Welcome back, " + name_ + ".";
+
+      } else {
+          
+        window.location.href="index.html";
+
+      }
+
+      document.getElementById("errors").innerHTML = "<p id='errormsg'></p>";
+
+      //Fade in
+      // $(".landing-header").fadeIn(800);
+      // $(".standard-text").fadeIn(1000);
+      // $(".image-strip-landing-one").fadeIn(1200);
+      // $(".footer").fadeIn(1400);
+
+      $('.tweet_ta').focusin(function(){
+
+         this.style.border = "5px solid #3498db";
+
+      });
+
+      $('.tweet_ta').focusout('input',function(e){
+
+        var value = this.value;
+
+        if(value != ""){
+          this.style.border = "5px solid #3498db";
+        }else if(value == ""){
+          this.style.border = "5px solid #cccccc";
+        }
+
+      });
+
+      var currentUser = Parse.User.current();
+      if (currentUser) {
+
+        currentUser.fetch().then(function (user) {
+
+            var verified_mail = user.get('emailVerified');
+
+            if(!verified_mail){
+              $("#writeonly").hide();
+              document.getElementById("errormsg").innerHTML = "Please verify your email. Only when verified will you be able to use or service. <a href='javascript:resendMail()'>Resend mail</a> or <a href='settigns.html'>Edit Email</a>";
+              $("#errors").fadeIn(400);
+            }else{
+              $("#errors").hide();
+            }
+
+        });
+
+      } else {
+          
+        window.location.href="index.html";
+
+      }
+
+      function round(value, decimals) {
+          return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+      }
+
+      $('#tweet_msg').keydown(function(){
+
+        if ( event.which == 13 ) {
+         event.preventDefault();
+         work();
+        }
+
+      });
+
+      function work(){
+
+        var tweet_msg = document.getElementById("tweet_msg").value;
+
+        if(tweet_msg.length > 0){
+          $("#writeonly").hide();
+          $(".wrapper").fadeIn(400);
+
+          document.getElementById("tweet_rebound").value = tweet_msg;
+
+          $.ajax({
+            type: "POST",
+            url: "php/main.php",
+            data: {fishy_str: tweet_msg},
+            success: function(response){
+            console.log(response);
+
+              //AUSWERTUNG GRAPHIK
+              var grade_ = JSON.parse(response);
+              //grade_[0] = 1ste stelle
+              
+              var prc_rch = round((grade_[0] * 100), 2);
+              var avg_rt = round(grade_[1], 2);
+              var followers_ = grade_[2];
+
+              // if(prc_rch > 100){prc_rch = prc_rch/30; prc_rch = round(prc_rch, 2);}
+              // if(prc_rch > 100){avg_rt = avg_rt/300; avg_rt = round(avg_rt, 2);}
+
+              // if(prc_rch > 1000){prc_rch = prc_rch/300}
+              // if(prc_rch > 1000){avg_rt = avg_rt/3000}
+
+              if(prc_rch >= 30){
+                $("#prc_rch").css("border-left", "3px solid #48d886");
+                $("#prc_rch").css("border-right", "3px solid #48d886");
+              }else if(prc_rch >= 5 && prc_rch < 30){
+                $("#prc_rch").css("border-left", "3px solid #e67e22");
+                $("#prc_rch").css("border-right", "3px solid #e67e22");
+              }else if(prc_rch >= 0 && prc_rch < 5){
+                $("#prc_rch").css("border-left", "3px solid #d84852");
+                $("#prc_rch").css("border-right", "3px solid #d84852");
+              }
+
+              if(avg_rt >= (0.2*followers_)){
+                $("#avg_rts").css("border-left", "3px solid #48d886");
+                $("#avg_rts").css("border-right", "3px solid #48d886");
+              }else if(avg_rt >= (0.03*followers_) && avg_rt < (0.2*followers_)){
+                $("#avg_rts").css("border-left", "3px solid #e67e22");
+                $("#avg_rts").css("border-right", "3px solid #e67e22");
+              }else if(avg_rt >= 0 && avg_rt < (0.03*followers_)){
+                $("#avg_rts").css("border-left", "3px solid #d84852");
+                $("#avg_rts").css("border-right", "3px solid #d84852");
+              }
+
+              document.getElementById("percent_reach").innerHTML = prc_rch + "%";
+              document.getElementById("avg_rt").innerHTML = avg_rt;
+
+
+              $("#tweet_rebound").val = tweet_msg;
+              var str = tweet_msg.split(' ').join('+');
+              str = str.toString().split('#').join('%23');
+              str = str.toString().split(':').join('%3A');
+              str = str.toString().split('/').join('%2F');
+
+              document.getElementById('tweet_submit').onclick = function () {
+                 
+                //str = message;
+                //hashs = list of hashtags
+                window.open("https://twitter.com/intent/tweet?text=" + str ,"_blank");
+
+              }
+
+            }
+          });
+          return false;
+
+        }else{
+          document.getElementById("errormsgs").innerHTML = "You must enter a message... You have written nothing";
+          $(".footer").hide();
+          $("#errormsgs").fadeIn(400);
+          setTimeout(function(){
+            $("#errormsgs").fadeOut(400);
+            $(".footer").fadeIn(400);
+            document.getElementById("errormsgs").innerHTML = "";
+          },3000);
+        }
+
+        }
+
+
+    </script>
+  </body>
+</html>

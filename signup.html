@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Tweesion &raquo; Sign Up</title>
+
+    <!-- CSS -->
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="http://www.parsecdn.com/js/parse-1.6.7.min.js"></script>
+    <script src="js/init.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    
+    <!-- BODY CONTENT -->
+
+    <!-- Landing-Header -->
+    <div class="essential-form-header-signup">
+      <!-- Nav -->
+      <div class="nav">
+        <!-- Logo -->
+        <a href="index.html"><img src="img/logo.png"/></a>
+        <!-- Menu -->
+        <div class="menu">
+
+          <a href="index.html">Home</a>
+          <a href="signin.html">Sign In</a>
+
+        </div>
+        <!-- End Menu -->
+      </div>
+      <!-- End Nav -->
+
+      <div class="vcenter"
+      style="
+      top: 72%;
+      -webkit-transform: translateY(-72%);
+      transform: translateY(-72%);">
+        <p>Signing up is easy, make an account set up your twitter account, and your ready to go.</p>
+        <!-- <button class="get-started" onclick="window.location.href='signup.html'">Get Started</button> -->
+        <p class="extra" style="margin-top:-15px;"><a href="signin.html">Already have an account?</a></p>
+      </div>
+
+    </div>
+
+
+    <div class="form" style="padding-bottom: 100px;">
+      
+      <input type="text" placeholder="Name" id="user_name_signup" class="forminput name"/><br/>
+      <input type="text" placeholder="Username" id="username_signup" class="forminput username"/><br/>
+      <input type="email" placeholder="Email" id="email_signup" class="forminput email"/><br/>
+      <input type="password" placeholder="Password" id="pass_signup" class="forminput password"/><br/>
+      <input type="password" placeholder="Repeat Password" id="pass_signup_" class="forminput password_"/><br/>
+
+      <button id="signup_submit" onclick="signup()">Sign Up</button>
+
+    </div>
+
+    <div class="errormsg" style="bottom: 0; left: 0; position: fixed;">
+      
+      <p id="errormsg"></p>
+
+    </div>
+
+
+    <div class="footer" style="bottom: 0; left: 0; position: fixed;">
+      
+      <p>&copy; 2015 Tweesion &middot; All rights Reserved &middot; <a href="impressum.html">Imprint</a></p>
+
+    </div>
+
+
+
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/scroll.js"></script>
+
+    <script>
+
+      //Hide elements
+      // $(".essential-form-header-signup").hide();
+      // $(".form").hide();
+      // $(".standard-text").hide();
+      // $(".footer").hide();
+      $(".errormsg").hide();
+
+      //Fade in
+      // $(".essential-form-header-signup").fadeIn(800);
+      // $(".form").fadeIn(1000);
+      // $(".standard-text").fadeIn(1200);
+      // $(".footer").fadeIn(1400);
+
+      $('.forminput').focusin(function(){
+
+         this.style.border = "5px solid #3498db";
+
+      });
+
+      $('.forminput').focusout('input',function(e){
+
+        var value = this.value;
+
+        if(value != ""){
+          this.style.border = "5px solid #3498db";
+        }else if(value == ""){
+          this.style.border = "5px solid #cccccc";
+        }
+
+      });
+
+      $('.password_').keydown(function(){
+
+        if ( event.which == 13 ) {
+         event.preventDefault();
+         signup();
+        }
+
+      });
+
+
+      var currentUser = Parse.User.current();
+      if (currentUser) {
+          
+        window.location.href="dash.html";
+
+      } else {
+        
+        
+
+      }
+
+    </script>
+  </body>
+</html>

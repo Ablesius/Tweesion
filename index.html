@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Tweesion &raquo; Home</title>
+
+    <!-- CSS -->
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="http://www.parsecdn.com/js/parse-1.6.7.min.js"></script>
+    <script src="js/init.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body id="body">
+    
+    <!-- BODY CONTENT -->
+
+    <!-- Landing-Header -->
+    <div class="landing-header">
+      <!-- Nav -->
+      <div class="nav">
+        <!-- Logo -->
+        <div class="logo">
+          <a href="index.html"><img src="img/logo.png"/></a>
+        </div>
+        <!-- Menu -->
+        <div class="menu" id="menu">
+
+        </div>
+        <!-- End Menu -->
+      </div>
+      <!-- End Nav -->
+
+      <div class="vcenter">
+        <p>Tweesion, is a powerful tool checking the likeability of a tweet.</p>
+
+        <button class="get-started" onclick="to_signup()">Get Started</button>
+        <p class="extra"><a href="javascript:to_signin()">Already have an account?</a></p>
+      </div>
+
+    </div>
+
+
+    <div class="standard-text">
+      
+      <h2>Tweesion? Whats this?</h2>
+
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</p>
+
+    </div>
+
+
+
+    <div class="image-strip-landing-one">
+      
+      <div class="vcenter"
+      style="
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);">
+        <p>Its so easy and simple, but so powerful. Try it out!</p>
+      </div>
+
+    </div>
+
+
+
+
+    <div class="standard-text">
+
+      <div class="row">
+
+        <div class="half">
+          <h2>The power of Tweesion</h2>
+
+          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        </div>
+
+        <div class="half">
+          <h2>Premium Users?</h2>
+
+          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr. </p>
+        </div>
+
+    </div>
+
+    </div>
+
+
+
+
+    <div class="footer">
+      
+      <p>&copy; 2015 Tweesion &middot; All rights Reserved &middot; <a href="impressum.html">Imprint</a></p>
+
+    </div>
+
+
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/scroll.js"></script>
+    <script>
+
+      //Hide elements
+      // $(".landing-header").hide();
+      // $(".standard-text").hide();
+      // $(".image-strip-landing-one").hide();
+      // $(".footer").hide();
+
+      var currentUser = Parse.User.current();
+      if (currentUser) {
+          
+        document.getElementById("menu").innerHTML = '<a href="dash.html">Dashboard</a><a href="javascript:logout()">Logout</a>';
+
+      } else {
+          
+        document.getElementById("menu").innerHTML = '<a href="index.html">Home</a><a href="signup.html">Sign Up</a>';
+
+      }
+
+      function to_signup(){
+        if(currentUser){
+          window.location.href='dash.html'
+        }else{
+          window.location.href='signup.html'
+        }
+      }
+
+      function to_signin(){
+        if(currentUser){
+          window.location.href='dash.html'
+        }else{
+          window.location.href='signin.html'
+        }
+      }
+
+      //Fade in
+      // $(".landing-header").fadeIn(800);
+      // $(".standard-text").fadeIn(1000);
+      // $(".image-strip-landing-one").fadeIn(1200);
+      // $(".footer").fadeIn(1400);
+
+
+    </script>
+  </body>
+</html>

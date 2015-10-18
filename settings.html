@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Tweesion &raquo; Settings</title>
+
+    <!-- CSS -->
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="http://www.parsecdn.com/js/parse-1.6.7.min.js"></script>
+    <script src="js/init.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body id="body">
+    
+    <!-- BODY CONTENT -->
+
+    <!-- Landing-Header -->
+    <div class="dash-header">
+      <!-- Nav -->
+      <div class="nav">
+        <!-- Logo -->
+        <div class="logo">
+          <a href="index.html"><img src="img/logo.png"/></a>
+        </div>
+        <!-- Menu -->
+        <div class="menu" id="menu">
+
+          <a href="dash.html">Dashboard</a>
+          <a href="javascript:logout()">Logout</a>
+
+        </div>
+        <!-- End Menu -->
+      </div>
+      <!-- End Nav -->
+
+      <div class="vcenter" 
+      style="
+      top: 75%;
+      -webkit-transform: translateY(-75%);
+      transform: translateY(-75%);">
+
+        <p id="username_push"></p>
+
+      </div>
+
+    </div>
+
+
+    <div class="standard-text" style="padding-bottom: 80px;">
+      
+      <h2>Email Settings</h2>
+      <p style="margin-bottom: -20px;">Update your email address here. To be able to use the site after this update, you must verify the new address.</p>
+
+      <input type="email" placeholder="New Email" id="email_new" class="forminput email"/><br/>
+
+      <button class="settings_submit" onclick="updateEmailSettings()">Submit</button>
+
+      <br><br><br>
+
+      <h2>Password Settings</h2>
+      <p style="margin-bottom: -20px;">Update your password here, this will be used the next time you log in.</p>
+      <input type="password" placeholder="Old Password" id="pass_old" class="forminput password_old"/><br/>
+      <input type="password" placeholder="New Password" id="pass_new" class="forminput password"/><br/>
+      <input type="password" placeholder="Repeat Password" id="pass_new_" class="forminput password_"/><br/>
+      
+      <button class="settings_submit" onclick="updatePassSettings()">Submit</button>
+
+    </div>
+
+
+    <div class="errormsg" id="errormsgs" style="bottom: 0; left: 0; position: fixed;">
+      
+      <p id="errormsg"></p>
+
+    </div>
+
+    <div class="footer" style="bottom: 0; left: 0; position: fixed;">
+      
+      <p>&copy; 2015 Tweesion &middot; All rights Reserved &middot; <a href="impressum.html">Imprint</a></p>
+
+    </div>
+
+
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/scroll.js"></script>
+    <script>
+
+      //Hide elements
+      // $(".landing-header").hide();
+      // $(".standard-text").hide();
+      // $(".image-strip-landing-one").hide();
+      // $(".footer").hide();
+      $(".errormsg").hide();
+
+      var currentUser = Parse.User.current();
+      if (currentUser) {
+          
+        var user_ = currentUser.getUsername();
+        var name_ = currentUser.get("name");
+
+        document.getElementById("username_push").innerHTML = user_ + "'s settings";
+
+      } else {
+          
+        window.location.href="index.html";
+
+      }
+
+      //Fade in
+      // $(".landing-header").fadeIn(800);
+      // $(".standard-text").fadeIn(1000);
+      // $(".image-strip-landing-one").fadeIn(1200);
+      // $(".footer").fadeIn(1400);
+
+      $('.forminput').focusin(function(){
+
+         this.style.border = "5px solid #3498db";
+
+      });
+
+      $('.forminput').focusout('input',function(e){
+
+        var value = this.value;
+
+        if(value != ""){
+          this.style.border = "5px solid #3498db";
+        }else if(value == ""){
+          this.style.border = "5px solid #cccccc";
+        }
+
+      });
+
+      $('#email_new').keydown(function(){
+
+        if ( event.which == 13 ) {
+         event.preventDefault();
+         updateEmailSettings();
+        }
+
+      });
+
+      $('.password_').keydown(function(){
+
+        if ( event.which == 13 ) {
+         event.preventDefault();
+         updatePassSettings();
+        }
+
+      });
+
+
+    </script>
+  </body>
+</html>
