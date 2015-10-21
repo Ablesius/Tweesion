@@ -134,8 +134,3 @@ function inputDb($inputDbSettings, $words, $hashtags) {
 	}
 }
 ?>
-<form method="post" action="?submit=true">
-	<p>Input fishy_str</p>
-	<input name="fishy_str" type="text">
-	<input name="submit" type="submit" value="Submit">
-</form>
