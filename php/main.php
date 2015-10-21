@@ -26,19 +26,6 @@
 	$retweet_count = analyse_grades($result['statuses']);
 	echo json_encode(array($retweet_count/AVGFOLLOW, $retweet_count));
 
- function objectToArray( $object )
-    {
-        if( !is_object( $object ) && !is_array( $object ) )
-        {
-            return $object;
-        }
-        if( is_object( $object ) )
-        {
-            $object = get_object_vars( $object );
-        }
-        return array_map( 'objectToArray', $object );
-    }
-
 function api_req($qstring, $since, $apiSettings) {
 	$url = 'https://api.twitter.com/1.1/search/tweets.json';
 	$getfield = '?q='.$qstring.'+since:'.$since.'&lang=en&result_type=recent&count=50';
