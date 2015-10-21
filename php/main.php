@@ -62,11 +62,9 @@ function analyse_grades($statuses){
 }
 
 function encode($fishy_str, $inputDbSettings) {
-	// remove all words without [a-zA-Z0-9# ]
-	$fishy_str = preg_replace("/[^a-zA-Z0-9# ]/u","", $fishy_str);
 	// convert words to an an array
 	$fs_array = explode(" ", $fishy_str);
-	// filter out all words of length smaller then 4
+
 	$j = 0;
 	$fsa_new = array('');
 	$words = array('');
@@ -74,7 +72,8 @@ function encode($fishy_str, $inputDbSettings) {
 	$k = 0;
 	$l = 0;
 	foreach ($fs_array as $i) {
-		if (strlen($i)>=4) {
+		// is word long than 3 and has not special characters
+		if (strlen($i)>=4 && preg_replace("/[^a-zA-Z0-9# ]/u","", $i) == $i) {
 			$fsa_new[$j] = $i;
 			$j++;
 			$i = strtolower($i);
@@ -122,7 +121,7 @@ function inputDb($inputDbSettings, $words, $hashtags) {
 	foreach ($words as $i) {
 		$input->sendQuery("SELECT * FROM `words` WHERE `words` = '$i';");
 		// only send query if it does not already exist
-		if ('int(0)' == $input->getResult()[0]->num_rows)
+		if ('int(0)' == $input->getResult()[0]->num_rows && '' != $i)
 			$input->sendQuery("INSERT INTO `$db_name`.`words` (`id`,`words`) VALUES (NULL, '$i');");
 	}
 
@@ -130,7 +129,7 @@ function inputDb($inputDbSettings, $words, $hashtags) {
 	foreach ($hashtags as $i) {
 		$input->sendQuery("SELECT * FROM `hashtags` WHERE `hashtags` = '$i';");
 		// only send query if it does not already exist
-		if ('int(0)' == $input->getResult()[0]->num_rows)
+		if ('int(0)' == $input->getResult()[0]->num_rows && '' != $i)
 			$input->sendQuery("INSERT INTO `$db_name`.`hashtags` (`id`,`hashtags`) VALUES (NULL, '$i');");
 	}
 
@@ -139,10 +138,17 @@ function inputDb($inputDbSettings, $words, $hashtags) {
 			$input->sendQuery("SELECT * FROM `links` WHERE `word` = '$i' AND `hashtag` = '$j';");
 			// only make new row if it does not already exist
 			// else add one to count
-			if ('int(0)' == $input->getResult()[0]->num_rows)
-				$input->sendQuery("INSERT INTO `$db_name`.`links`(`word`, `hashtag`, `id`, `weight`) VALUES ('$i', '$j', NULL, '1');");
-			else $input->sendQuery("UPDATE `links` SET `weight`=`weight`+1 WHERE `word` = '$i' AND `hashtag` = '$j';");
+			if ('' != $j && '' != $i){
+				if ('int(0)' == $input->getResult()[0]->num_rows)
+					$input->sendQuery("INSERT INTO `$db_name`.`links`(`word`, `hashtag`, `id`, `weight`) VALUES ('$i', '$j', NULL, '1');");
+				else $input->sendQuery("UPDATE `links` SET `weight`=`weight`+1 WHERE `word` = '$i' AND `hashtag` = '$j';");
+			}
 		}
 	}
 }
 ?>
+<form method="post" action="?submit=true">
+	<p>Input fishy_str</p>
+	<input name="fishy_str" type="text">
+	<input name="submit" type="submit" value="Submit">
+</form>
