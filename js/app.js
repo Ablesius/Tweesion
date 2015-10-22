@@ -31,7 +31,7 @@ function signup(){
 					    console.log(error.message);
 
 					    if(error.message == "username " + username + " already taken"){
-					    	document.getElementById("errormsg").innerHTML = "That username already exists, please select a new one";
+					    	document.getElementById("errormsg").innerHTML = "That username already exists; please select a new one";
 					    	$(".footer").hide();
 					    	$(".errormsg").fadeIn(400);
 					    	setTimeout(function(){
@@ -40,7 +40,7 @@ function signup(){
 					    		document.getElementById("errormsg").innerHTML = "";
 					    	},3000);
 					    }else if(error.message == "the email address " + mail + " has already been taken"){
-					    	document.getElementById("errormsg").innerHTML = "That email is already being used, please select a different one";
+					    	document.getElementById("errormsg").innerHTML = "That email is already being used; please select a different one";
 					    	$(".footer").hide();
 					    	$(".errormsg").fadeIn(400);
 					    	setTimeout(function(){
@@ -49,7 +49,7 @@ function signup(){
 					    		document.getElementById("errormsg").innerHTML = "";
 					    	},3000);
 					    }else{
-						    document.getElementById("errormsg").innerHTML = "An unknown error has occured, please try again.";
+						    document.getElementById("errormsg").innerHTML = "An unknown error has occured. Please try again.";
 					    	$(".footer").hide();
 					    	$(".errormsg").fadeIn(400);
 					    	setTimeout(function(){
@@ -61,7 +61,7 @@ function signup(){
 					  }
 					});
 				}else{
-					document.getElementById("errormsg").innerHTML = "That email is not valid, please check again.";
+					document.getElementById("errormsg").innerHTML = "That email is not valid; please check again.";
 			    	$(".footer").hide();
 			    	$(".errormsg").fadeIn(400);
 			    	setTimeout(function(){
@@ -71,7 +71,7 @@ function signup(){
 			    	},3000);
 				}
 			}else{
-				document.getElementById("errormsg").innerHTML = "That username isnt long enough, sorry you'll need to change that";
+				document.getElementById("errormsg").innerHTML = "That username isn't long enough. Sorry, you'll need to change that";
 		    	$(".footer").hide();
 		    	$(".errormsg").fadeIn(400);
 		    	setTimeout(function(){
@@ -81,7 +81,7 @@ function signup(){
 		    	},3000);
 			}
 		}else{
-			document.getElementById("errormsg").innerHTML = "The passwords you typed werent the same, try again.";
+			document.getElementById("errormsg").innerHTML = "The passwords you typed weren't the same; try again.";
 	    	$(".footer").hide();
 	    	$(".errormsg").fadeIn(400);
 	    	setTimeout(function(){
@@ -92,7 +92,7 @@ function signup(){
 		}
 
 	}else{
-		document.getElementById("errormsg").innerHTML = "You didnt fill out all the fields... please do that.";
+		document.getElementById("errormsg").innerHTML = "You didnt fill out all the fields... please do so.";
     	$(".footer").hide();
     	$(".errormsg").fadeIn(400);
     	setTimeout(function(){
@@ -161,7 +161,7 @@ Parse.User.logIn(username, pass, {
 
     // ERROR MSGS
     if(error.message == "invalid login parameters"){
-	    	document.getElementById("errormsg").innerHTML = "The username and password combination is invalid, please try again.";
+	    	document.getElementById("errormsg").innerHTML = "The username and password combination is invalid; please try again.";
 	    	$(".footer").hide();
 	    	$(".errormsg").fadeIn(400);
 	    	setTimeout(function(){
@@ -170,7 +170,7 @@ Parse.User.logIn(username, pass, {
 	    		document.getElementById("errormsg").innerHTML = "";
 	    	},3000);
 	    }else{
-	    	document.getElementById("errormsg").innerHTML = "An unknown error has occured, please try again.";
+	    	document.getElementById("errormsg").innerHTML = "An unknown error has occured. Please try again.";
 	    	$(".footer").hide();
 	    	$(".errormsg").fadeIn(400);
 	    	setTimeout(function(){
@@ -216,7 +216,7 @@ function updateEmailSettings(){
 
 		}else{
 
-			document.getElementById("errormsg").innerHTML = "You didnt fill out the field needed, please do that.";
+			document.getElementById("errormsg").innerHTML = "You didn't fill out the field needed; please do so.";
 			$(".footer").hide();
 			$(".errormsg").fadeIn(400);
 			setTimeout(function(){
@@ -247,7 +247,7 @@ function updatePassSettings(){
 
 				Parse.User.logIn(user_name, old_pass, {
 				  success: function(user) {
-				    
+
 				  	user.set("password", pass);
 
 					user.save(null, {
@@ -287,7 +287,7 @@ function updatePassSettings(){
 
 				    // ERROR MSGS
 				    if(error.message == "invalid login parameters"){
-					    	document.getElementById("errormsg").innerHTML = "The password you wrote in the 'Old Password' field isnt the same as your account password.";
+					    	document.getElementById("errormsg").innerHTML = "The password you wrote in the 'Old Password' field isn't the same as your account password.";
 							$(".footer").hide();
 							$(".errormsg").fadeIn(400);
 							setTimeout(function(){
@@ -296,7 +296,7 @@ function updatePassSettings(){
 					    		document.getElementById("errormsg").innerHTML = "";
 					    	},3000);
 					    }else{
-					    	document.getElementById("errormsg").innerHTML = "An unknown error has occured, please try again.";
+					    	document.getElementById("errormsg").innerHTML = "An unknown error has occured. Please try again.";
 					    	$(".footer").hide();
 					    	$(".errormsg").fadeIn(400);
 					    	setTimeout(function(){
@@ -309,8 +309,8 @@ function updatePassSettings(){
 				});
 
 				}else{
-					
-					document.getElementById("errormsg").innerHTML = "The new passwords you selected didnt match, try again.";
+
+					document.getElementById("errormsg").innerHTML = "The new passwords you selected didn't match; try again.";
 					$(".footer").hide();
 					$(".errormsg").fadeIn(400);
 					setTimeout(function(){
@@ -323,7 +323,7 @@ function updatePassSettings(){
 
 		}else{
 
-			document.getElementById("errormsg").innerHTML = "You didnt fill out all the fields, please do that.";
+			document.getElementById("errormsg").innerHTML = "You didn't fill out all the fields; please do so.";
 			$(".footer").hide();
 			$(".errormsg").fadeIn(400);
 			setTimeout(function(){
